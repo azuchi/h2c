@@ -7,7 +7,7 @@ module H2C
     class XMD
       attr_reader :dst, :digest
       # Constructor
-      # @param [String] func Hash function name. Currently supported by 'SHA-256' and 'SHA-512'
+      # @param [String] func Hash function name. Currently supported by 'SHA256' and 'SHA512'
       # @param [String] dst Domain separation tag with binary format.
       # @raise [H2C::Error] If invalid func specified.
       def initialize(func, dst)
@@ -30,7 +30,7 @@ module H2C
       # @return [String] Expanded message.
       # @raise [H2C::Error]
       def expand(msg, len)
-        b_len = hash_len
+        b_len = digest.digest_length
         ell = (len + b_len - 1) / b_len
         dst_prime = construct_dst_prime
 
@@ -38,8 +38,10 @@ module H2C
           raise H2C::Error, "requested too many bytes"
         end
         lib_str = [(len >> 8) & 0xFF, (len & 0xff)].pack("CC")
+        z_pad = Array.new(digest.block_length, 0)
 
         digest.reset
+        digest.update(z_pad.pack("C*"))
         digest.update(msg)
         digest.update(lib_str)
         digest.update([0].pack("C"))
@@ -61,7 +63,7 @@ module H2C
           bi = digest.digest
           pseudo += bi
         end
-        pseudo[0..len]
+        pseudo[0...len]
       end
 
       # Construct DST prime.
@@ -74,12 +76,6 @@ module H2C
             dst
           end
         dst_prime + [dst_prime.bytesize].pack("C")
-      end
-
-      private
-
-      def hash_len
-        digest.digest_length * 8
       end
     end
   end

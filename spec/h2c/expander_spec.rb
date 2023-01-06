@@ -12,9 +12,9 @@ RSpec.describe H2C::Expander do
           exp = described_class.get(v["hash"], v["DST"], v["k"])
           v["tests"].each do |t|
             expect(exp.construct_dst_prime.unpack1("H*")).to eq(t["DST_prime"])
-            # len = t['len_in_bytes'].hex
-            # result = exp.expand(t['msg'], len)
-            # expect(result).to eq([t['uniform_bytes']].pack('H*'))
+            len = t["len_in_bytes"].hex
+            result = exp.expand(t["msg"], len)
+            expect(result).to eq([t["uniform_bytes"]].pack("H*"))
           end
         end
       end
