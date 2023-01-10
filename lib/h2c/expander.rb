@@ -28,17 +28,6 @@ module H2C
       0x2d
     ].pack("C*")
 
-    # Hash function name
-    module HashFunc
-      SHA256 = "SHA256"
-      SHA512 = "SHA512"
-      SHAKE128 = "SHAKE128"
-      SHAKE256 = "SHAKE256"
-
-      XMD_FUNCS = [SHA256, SHA512].freeze
-      XOF_FUNCS = [SHAKE128, SHAKE256].freeze
-    end
-
     module_function
 
     # Get expander implementation
