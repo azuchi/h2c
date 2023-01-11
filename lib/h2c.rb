@@ -33,7 +33,7 @@ module H2C
   # @param [String] dst Domain separation tag.
   # @return [H2C::HashToPoint]
   def get(suite, dst)
-    suite = Suite.get(suite, dst)
+    suite = Suite.new(suite, dst)
     HashToPoint.new(suite)
   end
 end
