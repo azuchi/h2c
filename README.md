@@ -1,8 +1,13 @@
-# H2c
+# Hashing to Elliptic Curves for Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/h2c`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is a Ruby implementation of the [Hash to Curves](https://github.com/cfrg/draft-irtf-cfrg-hash-to-curve) proposed by the [IETF](https://datatracker.ietf.org/doc/draft-irtf-cfrg-hash-to-curve/).
 
-TODO: Delete this and the text above, and describe your gem
+It has been tested using the Test Vector provided, but the code has not been audited to ensure functional specification and safety. Also It is under development and is subject to change without backward compatibility.
+
+The following cipher suites are currently supported:
+
+* secp256k1_XMD:SHA-256_SSWU_NU_
+* secp256k1_XMD:SHA-256_SSWU_RO_
 
 ## Installation
 
@@ -22,22 +27,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'h2c'
 
-## Development
+sutie = "secp256k1_XMD:SHA-256_SSWU_RO_"
+dst = "QUUX-V01-CS02-with-secp256k1_XMD:SHA-256_SSWU_RO_"
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+h2c = H2C.get(sutie, dst)
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+msg = "abc"
 
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/h2c. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/h2c/blob/master/CODE_OF_CONDUCT.md).
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the H2c project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/h2c/blob/master/CODE_OF_CONDUCT.md).
+result = h2c.digest(msg)
+puts result.inspect
+#<ECDSA::Point: secp256k1, 0x3377e01eab42db296b512293120c6cee72b6ecf9f9205760bd9ff11fb3cb2c4b, 0x7f95890f33efebd1044d382a01b1bee0900fb6116f94688d487c6c7b9c8371f6>
+```
