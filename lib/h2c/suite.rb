@@ -2,11 +2,10 @@
 module H2C
   # Hash to curve suites
   class Suite
+    attr_reader :id, :curve, :k, :exp, :m, :l, :ro, :map
 
-    attr_reader :id, :curve, :k, :exp, :m, :l, :ro
-
-    Secp256k1_XMDSHA256_SSWU_NU_ = "secp256k1_XMD:SHA-256_SSWU_NU_"
-    Secp256k1_XMDSHA256_SSWU_RO_ = "secp256k1_XMD:SHA-256_SSWU_RO_"
+    SECP256K1_XMDSHA256_SSWU_NU_ = "secp256k1_XMD:SHA-256_SSWU_NU_"
+    SECP256K1_XMDSHA256_SSWU_RO_ = "secp256k1_XMD:SHA-256_SSWU_RO_"
 
     # Initialize suite
     # @param [String] id Suite id.
@@ -14,24 +13,17 @@ module H2C
     def initialize(id, dst)
       @id = id
       case id
-      when Secp256k1_XMDSHA256_SSWU_NU_
+      when SECP256K1_XMDSHA256_SSWU_NU_, SECP256K1_XMDSHA256_SSWU_RO_
         @curve = ECDSA::Group::Secp256k1
         @k = 128
         @exp = Expander.get(HashFunc::SHA256, dst, @k)
         @m = 1
         @l = 48
-        @ro = false
-      when Secp256k1_XMDSHA256_SSWU_RO_
-        @curve = ECDSA::Group::Secp256k1
-        @k = 128
-        @exp = Expander.get(HashFunc::SHA256, dst, @k)
-        @m = 1
-        @l = 48
-        @ro = true
+        @map = M2C::SSWUAB0.new(H2C::M2C::ISOGeny::Secp256k1.new, -11)
+        @ro = (id == SECP256K1_XMDSHA256_SSWU_RO_)
       else
-        raise H2C::Error, "suite #{suite} unsupported."
+        raise H2C::Error, "suite #{curve} unsupported."
       end
     end
-
   end
 end

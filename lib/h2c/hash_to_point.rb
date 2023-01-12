@@ -3,7 +3,6 @@
 module H2C
   # Complete and secure function for hashing strings to points.
   class HashToPoint
-
     attr_reader :suite
 
     # @param [H2C::Suite] suite Hash to curve suite
@@ -13,15 +12,17 @@ module H2C
 
     # Hash returns a point on an elliptic curve given a message.
     # @param [String] msg Message with binary to be hashed.
-    # @return [ECDSA::Point]
+    # @return [ECDSA::Point] point
     def digest(msg)
       if suite.ro
         u = hash_to_field(msg, 2)
+        p0 = suite.map.map(u[0])
+        p1 = suite.map.map(u[1])
+        p0 + p1
       else
         u = hash_to_field(msg, 1)
+        suite.map.map(u[0])
       end
-
-
     end
 
     # Hashes a msg of any length into an element of a finite field.
@@ -39,12 +40,12 @@ module H2C
         (0...suite.m).each do |j|
           offset = suite.l * (j + i * suite.m)
           t = pseudo[offset, (offset + suite.l)]
-          vj = t.unpack1('H*').to_i(16)
+          vj = t.unpack1("H*").to_i(16)
           v[j] = field.mod(vj)
         end
         u[i] = v
       end
-      u
+      u.flatten
     end
   end
 end

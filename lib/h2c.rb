@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative "h2c/version"
-require 'ecdsa'
+require "ecdsa"
+require_relative "ext/curve"
 
 # Hash to Curves library.
 # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html
@@ -12,6 +13,7 @@ module H2C
   autoload :Expander, "h2c/expander"
   autoload :Suite, "h2c/suite"
   autoload :HashToPoint, "h2c/hash_to_point"
+  autoload :M2C, "h2c/m2c"
 
   # Hash function name
   module HashFunc
