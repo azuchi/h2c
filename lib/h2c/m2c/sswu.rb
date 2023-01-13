@@ -43,7 +43,7 @@ module H2C
         y = f.square_roots(y2)[0]
         e3 = sgn0(u) == sgn0(y)
         y = f.mod(e3 ? y : -y)
-        [x, y]
+        curve.new_point([x, y])
       end
 
       def square?(x)

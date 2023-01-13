@@ -17,8 +17,8 @@ module H2C
       # @param [Integer] u
       # @return [ECDSA::Point]
       def map(u)
-        x, y = sswu.map(u)
-        coordinate = iso.map(x, y)
+        p = sswu.map(u)
+        coordinate = iso.map(p.x, p.y)
         iso.e1.new_point(coordinate)
       end
     end

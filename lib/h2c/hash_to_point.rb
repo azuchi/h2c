@@ -24,7 +24,7 @@ module H2C
           u = hash_to_field(msg, 1)
           suite.map.map(u[0])
         end
-      p.multiply_by_scalar(suite.curve.cofactor)
+      suite.curve.cofactor ? p.multiply_by_scalar(suite.curve.cofactor) : p
     end
 
     # Hashes a msg of any length into an element of a finite field.
