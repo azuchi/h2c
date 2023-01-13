@@ -9,18 +9,9 @@ module H2C
       # Constructor
       # @param [String] func Hash function name. Currently supported by 'SHA256' and 'SHA512'
       # @param [String] dst Domain separation tag with binary format.
-      # @raise [H2C::Error] If invalid func specified.
       def initialize(func, dst)
         @dst = dst
-        @digest =
-          case func
-          when HashFunc::SHA256
-            Digest(HashFunc::SHA256).new
-          when HashFunc::SHA512
-            Digest(HashFunc::SHA512).new
-          else
-            raise H2C::Error, "func #{func} is unsupported."
-          end
+        @digest = Digest(func).new
       end
 
       # Expand message.

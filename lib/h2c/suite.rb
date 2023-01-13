@@ -10,6 +10,8 @@ module H2C
     BLS12381G1_XMDSHA256_SWU_RO_ = "BLS12381G1_XMD:SHA-256_SSWU_RO_"
     P256_XMDSHA256_SSWU_NU_ = "P256_XMD:SHA-256_SSWU_NU_"
     P256_XMDSHA256_SSWU_RO_ = "P256_XMD:SHA-256_SSWU_RO_"
+    P384_XMDSHA384_SSWU_NU_ = "P384_XMD:SHA-384_SSWU_NU_"
+    P384_XMDSHA384_SSWU_RO_ = "P384_XMD:SHA-384_SSWU_RO_"
     P521_XMDSHA512_SSWU_NU_ = "P521_XMD:SHA-512_SSWU_NU_"
     P521_XMDSHA512_SSWU_RO_ = "P521_XMD:SHA-512_SSWU_RO_"
 
@@ -39,6 +41,13 @@ module H2C
         @l = 48
         @map = M2C::SSWU.new(ECDSA::Group::Nistp256, -10)
         @ro = (id == P256_XMDSHA256_SSWU_RO_)
+      when P384_XMDSHA384_SSWU_NU_, P384_XMDSHA384_SSWU_RO_
+        @k = 192
+        @curve = ECDSA::Group::Nistp384
+        @exp = Expander.get(HashFunc::SHA384, dst, @k)
+        @l = 72
+        @map = M2C::SSWU.new(ECDSA::Group::Nistp384, -12)
+        @ro = (id == P384_XMDSHA384_SSWU_RO_)
       when P521_XMDSHA512_SSWU_NU_, P521_XMDSHA512_SSWU_RO_
         @k = 256
         @curve = ECDSA::Group::Nistp521

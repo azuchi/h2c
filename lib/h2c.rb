@@ -18,11 +18,12 @@ module H2C
   # Hash function name
   module HashFunc
     SHA256 = "SHA256"
+    SHA384 = "SHA384"
     SHA512 = "SHA512"
     SHAKE128 = "SHAKE128"
     SHAKE256 = "SHAKE256"
 
-    XMD_FUNCS = [SHA256, SHA512].freeze
+    XMD_FUNCS = [SHA256, SHA384, SHA512].freeze
     XOF_FUNCS = [SHAKE128, SHAKE256].freeze
   end
 
