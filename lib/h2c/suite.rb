@@ -10,6 +10,8 @@ module H2C
     BLS12381G1_XMDSHA256_SWU_RO_ = "BLS12381G1_XMD:SHA-256_SSWU_RO_"
     P256_XMDSHA256_SSWU_NU_ = "P256_XMD:SHA-256_SSWU_NU_"
     P256_XMDSHA256_SSWU_RO_ = "P256_XMD:SHA-256_SSWU_RO_"
+    P521_XMDSHA512_SSWU_NU_ = "P521_XMD:SHA-512_SSWU_NU_"
+    P521_XMDSHA512_SSWU_RO_ = "P521_XMD:SHA-512_SSWU_RO_"
 
     # Initialize suite
     # @param [String] id Suite id.
@@ -37,6 +39,13 @@ module H2C
         @l = 48
         @map = M2C::SSWU.new(ECDSA::Group::Nistp256, -10)
         @ro = (id == P256_XMDSHA256_SSWU_RO_)
+      when P521_XMDSHA512_SSWU_NU_, P521_XMDSHA512_SSWU_RO_
+        @k = 256
+        @curve = ECDSA::Group::Nistp521
+        @exp = Expander.get(HashFunc::SHA512, dst, @k)
+        @l = 98
+        @map = M2C::SSWU.new(ECDSA::Group::Nistp521, -4)
+        @ro = (id == P521_XMDSHA512_SSWU_RO_)
       else
         raise H2C::Error, "suite #{curve} unsupported."
       end

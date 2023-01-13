@@ -10,6 +10,8 @@ The following cipher suites are currently supported:
 * secp256k1_XMD:SHA-256_SSWU_RO_
 * BLS12381G1_XMD:SHA-256_SSWU_NU_
 * BLS12381G1_XMD:SHA-256_SSWU_RO_
+* P521_XMD:SHA-512_SSWU_NU_
+* P521_XMD:SHA-512_SSWU_RO_
 
 ## Installation
 
