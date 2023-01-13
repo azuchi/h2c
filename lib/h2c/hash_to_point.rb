@@ -14,15 +14,17 @@ module H2C
     # @param [String] msg Message with binary to be hashed.
     # @return [ECDSA::Point] point
     def digest(msg)
-      if suite.ro
-        u = hash_to_field(msg, 2)
-        p0 = suite.map.map(u[0])
-        p1 = suite.map.map(u[1])
-        p0 + p1
-      else
-        u = hash_to_field(msg, 1)
-        suite.map.map(u[0])
-      end
+      p =
+        if suite.ro
+          u = hash_to_field(msg, 2)
+          p0 = suite.map.map(u[0])
+          p1 = suite.map.map(u[1])
+          p0 + p1
+        else
+          u = hash_to_field(msg, 1)
+          suite.map.map(u[0])
+        end
+      p.multiply_by_scalar(suite.curve.cofactor)
     end
 
     # Hashes a msg of any length into an element of a finite field.

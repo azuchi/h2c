@@ -8,6 +8,8 @@ The following cipher suites are currently supported:
 
 * secp256k1_XMD:SHA-256_SSWU_NU_
 * secp256k1_XMD:SHA-256_SSWU_RO_
+* BLS12381G1_XMD:SHA-256_SSWU_NU_
+* BLS12381G1_XMD:SHA-256_SSWU_RO_
 
 ## Installation
 
@@ -30,10 +32,9 @@ Or install it yourself as:
 ```ruby
 require 'h2c'
 
-sutie = "secp256k1_XMD:SHA-256_SSWU_RO_"
 dst = "QUUX-V01-CS02-with-secp256k1_XMD:SHA-256_SSWU_RO_"
 
-h2c = H2C.get(sutie, dst)
+h2c = H2C.get(H2C::Suite::SECP256K1_XMDSHA256_SSWU_RO_, dst)
 
 msg = "abc"
 

@@ -6,6 +6,10 @@ module H2C
 
     SECP256K1_XMDSHA256_SSWU_NU_ = "secp256k1_XMD:SHA-256_SSWU_NU_"
     SECP256K1_XMDSHA256_SSWU_RO_ = "secp256k1_XMD:SHA-256_SSWU_RO_"
+    BLS12381G1_XMDSHA256_SWU_NU_ = "BLS12381G1_XMD:SHA-256_SSWU_NU_"
+    BLS12381G1_XMDSHA256_SWU_RO_ = "BLS12381G1_XMD:SHA-256_SSWU_RO_"
+    BLS12381G2_XMDSHA256_SWU_NU_ = "BLS12381G2_XMD:SHA-256_SSWU_NU_"
+    BLS12381G2_XMDSHA256_SWU_RO_ = "BLS12381G2_XMD:SHA-256_SSWU_RO_"
 
     # Initialize suite
     # @param [String] id Suite id.
@@ -21,6 +25,14 @@ module H2C
         @l = 48
         @map = M2C::SSWUAB0.new(H2C::M2C::ISOGeny::Secp256k1.new, -11)
         @ro = (id == SECP256K1_XMDSHA256_SSWU_RO_)
+      when BLS12381G1_XMDSHA256_SWU_NU_, BLS12381G1_XMDSHA256_SWU_RO_
+        @curve = ECDSA::Group::BLS12381G1
+        @k = 128
+        @exp = Expander.get(HashFunc::SHA256, dst, @k)
+        @m = 1
+        @l = 64
+        @map = M2C::SSWUAB0.new(H2C::M2C::ISOGeny::BLS12381G1.new, 11)
+        @ro = (id == BLS12381G1_XMDSHA256_SWU_RO_)
       else
         raise H2C::Error, "suite #{curve} unsupported."
       end
