@@ -33,6 +33,7 @@ module H2C
     # Get expander implementation
     # @param [String] func Hash function name. Currently supported by 'SHA-256' and 'SHA-512'.
     # @raise [H2C::Error] If invalid func specified.
+    # @return [XMD] expander implementation, currently only XMD is supported.
     def get(func, dst, _k)
       unless HashFunc::XMD_FUNCS.include?(func)
         raise H2C::Error, "func #{func} is unsupported."
