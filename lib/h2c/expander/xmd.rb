@@ -3,7 +3,7 @@ require "digest"
 
 module H2C
   module Expander
-    # Expander::XML produces a uniformly random byte string using a cryptographic hash function H that outputs b bits.
+    # Expander::XMD produces a uniformly random byte string using a cryptographic hash function H that outputs b bits.
     class XMD
       attr_reader :dst, :digest
       # Constructor
