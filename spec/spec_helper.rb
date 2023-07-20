@@ -14,11 +14,3 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
-
-def fixture_path(relative_path)
-  File.join(File.dirname(__FILE__), "fixtures", relative_path)
-end
-
-def load_fixture(_relative_path)
-  JSON.parse
-end
