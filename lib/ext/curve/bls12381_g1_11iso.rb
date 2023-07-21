@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-module ECDSA
+module BLS
   class Group
     BLS12381G1_11ISO =
-      new(
+      ECDSA::Group.new(
         name: "bls12381_g1_11iso",
         p:
           0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaaab,

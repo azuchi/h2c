@@ -76,8 +76,8 @@ module H2C
           1
         ].freeze
         def initialize
-          @e0 = ECDSA::Group::BLS12381G1_11ISO
-          @e1 = ECDSA::Group::BLS12381G1
+          @e0 = BLS::Group::BLS12381G1_11ISO
+          @e1 = BLS::Group::BLS12381G1
         end
 
         def map(x, y)
