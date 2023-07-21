@@ -34,7 +34,7 @@ module H2C
         @exp = Expander.get(HashFunc::SHA256, dst, @k)
         @l = 64
         @map = M2C::SSWUAB0.new(H2C::M2C::ISOGeny::BLS12381G1.new, 11)
-        @ro = (id == BLS12381G1_XMDSHA256_SWU_RO_)
+        @ro = (id == BLS12381G1_XMDSHA256_SSWU_RO_)
       when P256_XMDSHA256_SSWU_NU_, P256_XMDSHA256_SSWU_RO_
         @curve = ECDSA::Group::Nistp256
         @exp = Expander.get(HashFunc::SHA256, dst, @k)
