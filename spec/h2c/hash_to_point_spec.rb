@@ -16,7 +16,7 @@ RSpec.describe H2C::HashToPoint do
             expect(p.y).to eq(t["P"]["y"].hex)
             count = h2c.suite.ro ? 2 : 1
             u = h2c.hash_to_field(t["msg"], count)
-            expect(u).to eq(t['u'].map(&:hex))
+            expect(u).to eq(t["u"].map(&:hex))
           end
         end
       end
