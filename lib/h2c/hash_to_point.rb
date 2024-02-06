@@ -31,19 +31,20 @@ module H2C
     # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#name-hash_to_field-implementatio
     # @param [String] msg A byte string containing the message to hash.
     # @param [Integer] count The number of elements of Field to output.
+    # @param [Integer] modulo (Optional) This value is a finite field of characteristic p in the hash to curve specification.
+    # Other protocols such as FROST can be order of curve.
     # @return [Array]
-    def hash_to_field(msg, count)
-      field = suite.curve.field
+    def hash_to_field(msg, count, modulo = suite.curve.field.prime)
       len = count * suite.m * suite.l
       pseudo = suite.exp.expand(msg, len)
       u = []
-      (0...count).each do |i|
+      count.times do |i|
         v = []
-        (0...suite.m).each do |j|
+        suite.m.times do |j|
           offset = suite.l * (j + i * suite.m)
           t = pseudo[offset, (offset + suite.l)]
           vj = t.unpack1("H*").to_i(16)
-          v[j] = field.mod(vj)
+          v[j] = vj % modulo
         end
         u[i] = v
       end
