@@ -26,10 +26,10 @@ RSpec.describe H2C::HashToPoint do
   describe "hash to field" do
     context "with modulo" do
       it do
-        dst = "FROST-secp256k1-SHA256-v1" + "nonce"
+        dst = "FROST-secp256k1-SHA256-v1nonce"
         h2c = H2C.get(H2C::Suite::SECP256K1_XMDSHA256_SSWU_NU_, dst)
         msg = [
-          "7ea5ed09af19f6ff21040c07ec2d2adbd35b759da5a401d4c99dd26b82391cb208f89ffe80ac94dcb920c26f3f46140bfc7f95b493f8310f5fc1ea2b01f4254c"
+          "7ea5ed09af19f6ff21040c07ec2d2adbd35b759da5a401d4c99dd26b82391cb208f89ffe80ac94dcb920c26f3f46140bfc7f95b493f8310f5fc1ea2b01f4254c" # rubocop:disable all
         ].pack("H*")
         field = h2c.hash_to_field(msg, 1, ECDSA::Group::Secp256k1.order).first
         expect(field).to eq(
