@@ -20,4 +20,32 @@ RSpec.describe H2C::Expander do
       end
     end
   end
+
+  describe ".get" do
+    context "with an unsupported func" do
+      it do
+        expect { described_class.get("MD5", "dst", 128) }.to raise_error(
+          H2C::Error,
+          "func MD5 is unsupported."
+        )
+      end
+    end
+
+    # RFC 9380 3.1 requires domain separation tags to have nonzero length.
+    context "with an empty dst" do
+      it do
+        expect do
+          described_class.get(H2C::HashFunc::SHA256, "", 128)
+        end.to raise_error(H2C::Error, "dst must not be empty.")
+      end
+    end
+
+    context "with a nil dst" do
+      it do
+        expect do
+          described_class.get(H2C::HashFunc::SHA256, nil, 128)
+        end.to raise_error(H2C::Error, "dst must not be empty.")
+      end
+    end
+  end
 end

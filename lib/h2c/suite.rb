@@ -56,7 +56,7 @@ module H2C
         @map = M2C::SSWU.new(ECDSA::Group::Nistp521, -4)
         @ro = (id == P521_XMDSHA512_SSWU_RO_)
       else
-        raise H2C::Error, "suite #{curve} unsupported."
+        raise H2C::Error, "suite #{id} unsupported."
       end
     end
   end

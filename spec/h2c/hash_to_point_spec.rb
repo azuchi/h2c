@@ -37,5 +37,28 @@ RSpec.describe H2C::HashToPoint do
         )
       end
     end
+
+    # Every suite currently has m == 1, which hides an off-by-one in the way the
+    # expanded message is split. Extension degrees of 2 or more must take a
+    # disjoint l-byte window per element, as required by RFC 9380 5.2.
+    context "with an extension degree of 2" do
+      it "derives each element from its own l-byte window" do
+        dst = "QUUX-V01-CS02-with-P256_XMD:SHA-256_SSWU_RO_"
+        exp = H2C::Expander.get(H2C::HashFunc::SHA256, dst, 128)
+        group = ECDSA::Group::Nistp256
+        l = 48
+        suite = instance_double(H2C::Suite, curve: group, m: 2, l: l, exp: exp)
+        msg = "abc"
+
+        u = described_class.new(suite).hash_to_field(msg, 2)
+
+        pseudo = exp.expand(msg, 2 * 2 * l)
+        expect(u).to eq(
+          Array.new(4) do |i|
+            pseudo[l * i, l].unpack1("H*").to_i(16) % group.field.prime
+          end
+        )
+      end
+    end
   end
 end
