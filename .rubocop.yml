@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
 inherit_gem:
@@ -17,5 +17,7 @@ Style/WhileUntilModifier:
   Enabled: false
 Naming/MethodParameterName:
   Enabled: false
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
+  Enabled: false
+RSpec/SpecFilePathSuffix:
   Enabled: false

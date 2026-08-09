@@ -48,7 +48,7 @@ module H2C
       end
 
       def square?(x)
-        test = curve.field.power(x, ((curve.field.prime - 1) / 2))
+        test = curve.field.power(x, (curve.field.prime - 1) / 2)
         [0, 1].include?(test)
       end
 
