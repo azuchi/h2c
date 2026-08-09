@@ -25,8 +25,9 @@ module H2C
         t1 = f.mod(f.power(u, 2) * f.mod(z))
         t2 = f.power(t1, 2)
         x1 = f.mod(t1 + t2)
-        x1 = f.inverse(x1)
         e1 = x1.zero?
+        # inv0(x) is the multiplicative inverse of x, with inv0(0) = 0.
+        x1 = e1 ? 0 : f.inverse(x1)
         x1 = f.mod(x1 + 1)
         x1 = e1 ? c2 : x1
         x1 = f.mod(x1 * c1)

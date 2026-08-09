@@ -4,6 +4,22 @@ This is a Ruby implementation of the [Hash to Curves](https://github.com/cfrg/dr
 
 It has been tested using the Test Vector provided, but the code has not been audited to ensure functional specification and safety. Also It is under development and is subject to change without backward compatibility.
 
+## Security considerations
+
+**This library is not constant-time and must not be used with secret input messages.**
+
+[RFC 9380 Section 4](https://www.rfc-editor.org/rfc/rfc9380.html#section-4) requires a constant-time implementation when the message being hashed is secret. This library does not meet that requirement:
+
+* Field arithmetic is performed with Ruby's arbitrary-precision `Integer`, whose execution time depends on the operand values.
+* The mapping in `H2C::M2C::SSWU#map` selects between candidates with ordinary `if`/ternary branches rather than constant-time conditional moves.
+* Byte-string handling in `H2C::Expander` allocates and copies in ways that depend on the requested length.
+
+An attacker able to measure timing or cache behaviour may therefore be able to recover information about the input. Hashing a **public** message to a curve point (the primary use case of RFC 9380) is unaffected.
+
+In particular, do not use this library to derive nonces or key material directly from secret values — for example, FROST's `nonce_generate`, which hashes a secret share. Such protocols require a constant-time implementation.
+
+Additionally, `H2C::HashToPoint` and the `H2C::Expander` instance it holds keep mutable digest state, so a single instance must not be shared across threads. Create one instance per thread instead.
+
 The following cipher suites are currently supported:
 
 * secp256k1_XMD:SHA-256_SSWU_NU_

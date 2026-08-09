@@ -42,7 +42,7 @@ module H2C
         v = []
         suite.m.times do |j|
           offset = suite.l * (j + i * suite.m)
-          t = pseudo[offset, (offset + suite.l)]
+          t = pseudo[offset, suite.l]
           vj = t.unpack1("H*").to_i(16)
           v[j] = vj % modulo
         end
