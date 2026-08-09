@@ -46,7 +46,8 @@ module H2C
 
         bi = digest.digest
         pseudo = bi
-        (2..(ell + 1)).each do |i|
+        # b_1 is already computed above, so this yields b_1, ..., b_ell in total.
+        (2..ell).each do |i|
           digest.reset
           digest.update(Expander.xor(b0, bi))
           digest.update([i].pack("C"))
