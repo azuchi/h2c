@@ -18,8 +18,6 @@ An attacker able to measure timing or cache behaviour may therefore be able to r
 
 In particular, do not use this library to derive nonces or key material directly from secret values — for example, FROST's `nonce_generate`, which hashes a secret share. Such protocols require a constant-time implementation.
 
-Additionally, `H2C::HashToPoint` and the `H2C::Expander` instance it holds keep mutable digest state, so a single instance must not be shared across threads. Create one instance per thread instead.
-
 The following cipher suites are currently supported:
 
 * secp256k1_XMD:SHA-256_SSWU_NU_

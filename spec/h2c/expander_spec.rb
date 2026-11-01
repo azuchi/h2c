@@ -77,6 +77,29 @@ RSpec.describe H2C::Expander do
       end
     end
 
+    context "with a non-ASCII UTF-8 msg" do
+      it "hashes the raw bytes of the message" do
+        exp = described_class.get(H2C::HashFunc::SHA256, "日" * 50, 128)
+        msg = "メッセージ"
+        expect(exp.expand(msg, 32)).to eq(exp.expand(msg.b, 32))
+      end
+    end
+
+    context "when shared across threads" do
+      it "returns the same output as sequential calls" do
+        exp = described_class.get(H2C::HashFunc::SHA256, "dst", 128)
+        msgs = Array.new(8) { |i| "msg#{i}" }
+        expected = msgs.map { |m| exp.expand(m, 96) }
+
+        results =
+          msgs
+            .map { |m| Thread.new { 50.times.map { exp.expand(m, 96) } } }
+            .map(&:value)
+
+        results.each_with_index { |r, i| expect(r).to all(eq(expected[i])) }
+      end
+    end
+
     context "with a dst of 254 or 255 bytes" do
       it "accepts the dst without hashing it" do
         [254, 255].each do |n|
