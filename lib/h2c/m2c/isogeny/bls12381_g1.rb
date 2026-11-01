@@ -87,12 +87,12 @@ module H2C
           y_num = 0
           y_den = 0
           (X_NUM.length - 1).step(0, -1) do |i|
-            x_num = f.mod(x_num * x + X_NUM[i])
-            x_den = f.mod(x_den * x + X_DEN[i])
+            x_num = f.mod((x_num * x) + X_NUM[i])
+            x_den = f.mod((x_den * x) + X_DEN[i])
           end
           (Y_NUM.length - 1).step(0, -1) do |i|
-            y_num = f.mod(y_num * x + Y_NUM[i])
-            y_den = f.mod(y_den * x + Y_DEN[i])
+            y_num = f.mod((y_num * x) + Y_NUM[i])
+            y_den = f.mod((y_den * x) + Y_DEN[i])
           end
           xx = f.mod(x_num * f.inverse(x_den))
           yy = f.mod(y * (y_num * f.inverse(y_den)))

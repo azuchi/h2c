@@ -33,7 +33,7 @@ module H2C
         # inv0(x) is the multiplicative inverse of x, with inv0(0) = 0.
         x1 = e1 ? 0 : f.inverse(x1)
         x1 = f.mod(x1 + 1)
-        x1 = e1 ? c2 : x1
+        x1 = c2 if e1
         x1 = f.mod(x1 * c1)
         gx1 = f.power(x1, 2)
         gx1 = f.mod(gx1 + curve.param_a)
@@ -61,7 +61,7 @@ module H2C
 
       def sgn0(x)
         res = x % 2
-        curve.field.mod(1 - 2 * res)
+        curve.field.mod(1 - (2 * res))
       end
     end
   end

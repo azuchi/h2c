@@ -5,6 +5,10 @@ inherit_gem:
   syntax_tree: config/rubocop.yml
 AllCops:
   TargetRubyVersion: 3.3
+  NewCops: enable
+# Requiring MFA on rubygems.org is a release-policy decision, not a lint one.
+Gemspec/RequireMFA:
+  Enabled: false
 RSpec/ExampleLength:
   Enabled: false
 Metrics:

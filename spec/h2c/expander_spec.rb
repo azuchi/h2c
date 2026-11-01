@@ -4,11 +4,13 @@ require "spec_helper"
 
 RSpec.describe H2C::Expander do
   describe "Test Vector" do
-    dir_path = File.join(File.dirname(__FILE__), "..", "fixtures", "expander")
-    Dir.each_child(dir_path) do |f|
-      v = JSON.parse(File.read(File.join(dir_path, [f])))
+    Dir.each_child(File.join(__dir__, "..", "fixtures", "expander")) do |f|
       describe f do
         it do
+          v =
+            JSON.parse(
+              File.read(File.join(__dir__, "..", "fixtures", "expander", f))
+            )
           exp = described_class.get(v["hash"], v["DST"], v["k"])
           v["tests"].each do |t|
             expect(exp.construct_dst_prime.unpack1("H*")).to eq(t["DST_prime"])
@@ -62,7 +64,7 @@ RSpec.describe H2C::Expander do
       end
 
       it "rejects ell > 255" do
-        expect { exp.expand("abc", 255 * 32 + 1) }.to raise_error(
+        expect { exp.expand("abc", (255 * 32) + 1) }.to raise_error(
           H2C::Error,
           /requested too many bytes/
         )

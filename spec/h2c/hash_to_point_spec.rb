@@ -4,11 +4,13 @@ require "spec_helper"
 
 RSpec.describe H2C::HashToPoint do
   describe "Test Vector" do
-    dir_path = File.join(File.dirname(__FILE__), "..", "fixtures", "suites")
-    Dir.each_child(dir_path) do |f|
+    Dir.each_child(File.join(__dir__, "..", "fixtures", "suites")) do |f|
       describe f do
         it do
-          v = JSON.parse(File.read(File.join(dir_path, [f])))
+          v =
+            JSON.parse(
+              File.read(File.join(__dir__, "..", "fixtures", "suites", f))
+            )
           h2c = H2C.get(v["ciphersuite"], v["dst"])
           v["vectors"].each do |t|
             p = h2c.digest(t["msg"])
