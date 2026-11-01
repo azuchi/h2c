@@ -33,7 +33,7 @@ module H2C
         ].freeze
 
         def initialize
-          @e0 = ECDSA::Group::Secp256k1_3ISO
+          @e0 = Curve::Secp256k1_3ISO
           @e1 = ECDSA::Group::Secp256k1
         end
 

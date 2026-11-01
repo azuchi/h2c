@@ -2,7 +2,7 @@
 
 require_relative "h2c/version"
 require "ecdsa"
-require_relative "ext/curve"
+require_relative "h2c/curve"
 
 # Hash to Curves library.
 # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html

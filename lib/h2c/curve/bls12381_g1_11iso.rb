@@ -1,6 +1,8 @@
 # frozen_string_literal: true
-module BLS
-  class Group
+module H2C
+  module Curve
+    # 11-isogenous curve to BLS12-381 G1.
+    # https://www.rfc-editor.org/rfc/rfc9380.html#section-8.8.1
     BLS12381G1_11ISO =
       ECDSA::Group.new(
         name: "bls12381_g1_11iso",

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
-module ECDSA
-  class Group
+module H2C
+  module Curve
+    # 3-isogenous curve to secp256k1.
+    # https://www.rfc-editor.org/rfc/rfc9380.html#section-8.7
     Secp256k1_3ISO =
-      new(
+      ECDSA::Group.new(
         name: "secp256k1_3ISO",
         p:
           0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFE_FFFFFC2F,
