@@ -46,7 +46,7 @@ RSpec.describe H2C::HashToPoint do
     context "with an extension degree of 2" do
       it "derives each element from its own l-byte window" do
         dst = "QUUX-V01-CS02-with-P256_XMD:SHA-256_SSWU_RO_"
-        exp = H2C::Expander.get(H2C::HashFunc::SHA256, dst, 128)
+        exp = H2C::Expander.get(H2C::HashFunc::SHA256, dst)
         group = ECDSA::Group::Nistp256
         l = 48
         suite = instance_double(H2C::Suite, curve: group, m: 2, l: l, exp: exp)

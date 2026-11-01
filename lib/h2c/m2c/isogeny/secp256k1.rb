@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module H2C
   module M2C
-    module ISOGeny
+    module Isogeny
       # 3-isogeny map for secp256k1
       # https://www.rfc-editor.org/rfc/rfc9380.html#appendix-E.1
       class Secp256k1

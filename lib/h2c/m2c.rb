@@ -4,7 +4,7 @@ module H2C
   # Map to Curve functions.
   # https://www.rfc-editor.org/rfc/rfc9380.html#section-6
   module M2C
-    autoload :ISOGeny, "h2c/m2c/isogeny"
+    autoload :Isogeny, "h2c/m2c/isogeny"
     autoload :SSWU, "h2c/m2c/sswu"
     autoload :SSWUAB0, "h2c/m2c/sswuab0"
   end

@@ -11,7 +11,7 @@ RSpec.describe H2C::Expander do
             JSON.parse(
               File.read(File.join(__dir__, "..", "fixtures", "expander", f))
             )
-          exp = described_class.get(v["hash"], v["DST"], v["k"])
+          exp = described_class.get(v["hash"], v["DST"])
           v["tests"].each do |t|
             expect(exp.construct_dst_prime.unpack1("H*")).to eq(t["DST_prime"])
             len = t["len_in_bytes"].hex
@@ -26,7 +26,7 @@ RSpec.describe H2C::Expander do
   describe ".get" do
     context "with an unsupported func" do
       it do
-        expect { described_class.get("MD5", "dst", 128) }.to raise_error(
+        expect { described_class.get("MD5", "dst") }.to raise_error(
           H2C::Error,
           "func MD5 is unsupported."
         )
@@ -37,7 +37,7 @@ RSpec.describe H2C::Expander do
     context "with an empty dst" do
       it do
         expect do
-          described_class.get(H2C::HashFunc::SHA256, "", 128)
+          described_class.get(H2C::HashFunc::SHA256, "")
         end.to raise_error(H2C::Error, "dst must not be empty.")
       end
     end
@@ -45,7 +45,7 @@ RSpec.describe H2C::Expander do
     context "with a nil dst" do
       it do
         expect do
-          described_class.get(H2C::HashFunc::SHA256, nil, 128)
+          described_class.get(H2C::HashFunc::SHA256, nil)
         end.to raise_error(H2C::Error, "dst must not be empty.")
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe H2C::Expander do
     # len(DST) > 255. The checks used to be off by one and to look at
     # DST_prime (one byte longer than the dst), rejecting valid inputs.
     context "with output length at the limit" do
-      let(:exp) { described_class.get(H2C::HashFunc::SHA256, "dst", 128) }
+      let(:exp) { described_class.get(H2C::HashFunc::SHA256, "dst") }
 
       it "accepts ell == 255" do
         len = 255 * 32
@@ -71,7 +71,7 @@ RSpec.describe H2C::Expander do
       end
 
       it "rejects len > 65535" do
-        exp = described_class.get(H2C::HashFunc::SHA512, "dst", 128)
+        exp = described_class.get(H2C::HashFunc::SHA512, "dst")
         expect { exp.expand("abc", 65_536) }.to raise_error(
           H2C::Error,
           /requested too many bytes/
@@ -81,7 +81,7 @@ RSpec.describe H2C::Expander do
 
     context "with a non-ASCII UTF-8 msg" do
       it "hashes the raw bytes of the message" do
-        exp = described_class.get(H2C::HashFunc::SHA256, "日" * 50, 128)
+        exp = described_class.get(H2C::HashFunc::SHA256, "日" * 50)
         msg = "メッセージ"
         expect(exp.expand(msg, 32)).to eq(exp.expand(msg.b, 32))
       end
@@ -89,7 +89,7 @@ RSpec.describe H2C::Expander do
 
     context "when shared across threads" do
       it "returns the same output as sequential calls" do
-        exp = described_class.get(H2C::HashFunc::SHA256, "dst", 128)
+        exp = described_class.get(H2C::HashFunc::SHA256, "dst")
         msgs = Array.new(8) { |i| "msg#{i}" }
         expected = msgs.map { |m| exp.expand(m, 96) }
 
@@ -106,7 +106,7 @@ RSpec.describe H2C::Expander do
       it "accepts the dst without hashing it" do
         [254, 255].each do |n|
           dst = "a" * n
-          exp = described_class.get(H2C::HashFunc::SHA256, dst, 128)
+          exp = described_class.get(H2C::HashFunc::SHA256, dst)
           expect(exp.construct_dst_prime).to eq(dst + [n].pack("C"))
           expect(exp.expand("abc", 32).bytesize).to eq(32)
         end
@@ -120,8 +120,8 @@ RSpec.describe H2C::Expander do
       let(:dst) { "日" * 50 } # 150 bytes
 
       it "produces the same output as the equivalent binary dst" do
-        utf8 = described_class.get(H2C::HashFunc::SHA256, dst, 128)
-        binary = described_class.get(H2C::HashFunc::SHA256, dst.b, 128)
+        utf8 = described_class.get(H2C::HashFunc::SHA256, dst)
+        binary = described_class.get(H2C::HashFunc::SHA256, dst.b)
 
         expect(utf8.construct_dst_prime).to eq(dst.b + [150].pack("C"))
         expect(utf8.expand("abc", 32)).to eq(binary.expand("abc", 32))

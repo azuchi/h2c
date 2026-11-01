@@ -7,8 +7,8 @@ RSpec.describe H2C::M2C::SSWUAB0 do
   # exceptional case described in spec/h2c/m2c/sswu_spec.rb. The resulting point
   # must land on the target curve after the isogeny is applied.
   isogenies = {
-    "secp256k1" => [H2C::M2C::ISOGeny::Secp256k1, -11],
-    "BLS12381G1" => [H2C::M2C::ISOGeny::BLS12381G1, 11]
+    "secp256k1" => [H2C::M2C::Isogeny::Secp256k1, -11],
+    "BLS12381G1" => [H2C::M2C::Isogeny::BLS12381G1, 11]
   }
 
   describe "#map" do

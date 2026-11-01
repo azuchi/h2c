@@ -25,33 +25,33 @@ module H2C
       case id
       when SECP256K1_XMDSHA256_SSWU_NU_, SECP256K1_XMDSHA256_SSWU_RO_
         @curve = ECDSA::Group::Secp256k1
-        @exp = Expander.get(HashFunc::SHA256, dst, @k)
+        @exp = Expander.get(HashFunc::SHA256, dst)
         @l = 48
-        @map = M2C::SSWUAB0.new(H2C::M2C::ISOGeny::Secp256k1.new, -11)
+        @map = M2C::SSWUAB0.new(H2C::M2C::Isogeny::Secp256k1.new, -11)
         @ro = (id == SECP256K1_XMDSHA256_SSWU_RO_)
       when BLS12381G1_XMDSHA256_SSWU_NU_, BLS12381G1_XMDSHA256_SSWU_RO_
         @curve = Curve::BLS12381G1
-        @exp = Expander.get(HashFunc::SHA256, dst, @k)
+        @exp = Expander.get(HashFunc::SHA256, dst)
         @l = 64
-        @map = M2C::SSWUAB0.new(H2C::M2C::ISOGeny::BLS12381G1.new, 11)
+        @map = M2C::SSWUAB0.new(H2C::M2C::Isogeny::BLS12381G1.new, 11)
         @ro = (id == BLS12381G1_XMDSHA256_SSWU_RO_)
       when P256_XMDSHA256_SSWU_NU_, P256_XMDSHA256_SSWU_RO_
         @curve = ECDSA::Group::Nistp256
-        @exp = Expander.get(HashFunc::SHA256, dst, @k)
+        @exp = Expander.get(HashFunc::SHA256, dst)
         @l = 48
         @map = M2C::SSWU.new(ECDSA::Group::Nistp256, -10)
         @ro = (id == P256_XMDSHA256_SSWU_RO_)
       when P384_XMDSHA384_SSWU_NU_, P384_XMDSHA384_SSWU_RO_
         @k = 192
         @curve = ECDSA::Group::Nistp384
-        @exp = Expander.get(HashFunc::SHA384, dst, @k)
+        @exp = Expander.get(HashFunc::SHA384, dst)
         @l = 72
         @map = M2C::SSWU.new(ECDSA::Group::Nistp384, -12)
         @ro = (id == P384_XMDSHA384_SSWU_RO_)
       when P521_XMDSHA512_SSWU_NU_, P521_XMDSHA512_SSWU_RO_
         @k = 256
         @curve = ECDSA::Group::Nistp521
-        @exp = Expander.get(HashFunc::SHA512, dst, @k)
+        @exp = Expander.get(HashFunc::SHA512, dst)
         @l = 98
         @map = M2C::SSWU.new(ECDSA::Group::Nistp521, -4)
         @ro = (id == P521_XMDSHA512_SSWU_RO_)

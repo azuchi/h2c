@@ -36,7 +36,7 @@ module H2C
     # @param [String] dst Domain separation tag with binary format. Must not be empty.
     # @raise [H2C::Error] If invalid func or empty dst specified.
     # @return [XMD] expander implementation, currently only XMD is supported.
-    def get(func, dst, _k)
+    def get(func, dst)
       unless HashFunc::XMD_FUNCS.include?(func)
         raise H2C::Error, "func #{func} is unsupported."
       end

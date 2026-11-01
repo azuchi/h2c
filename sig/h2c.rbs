@@ -62,7 +62,7 @@ module H2C
     MAX_DST_LENGTH: Integer
     LONG_DST_PREFIX: String
 
-    def self.get: (String func, String? dst, Integer _k) -> XMD
+    def self.get: (String func, String? dst) -> XMD
     def self.xor: (String x, String y) -> String
 
     class XMD
@@ -90,13 +90,13 @@ module H2C
 
     class SSWUAB0
       attr_reader sswu: SSWU
-      attr_reader iso: ISOGeny::Secp256k1 | ISOGeny::BLS12381G1
+      attr_reader iso: Isogeny::Secp256k1 | Isogeny::BLS12381G1
 
-      def initialize: (ISOGeny::Secp256k1 | ISOGeny::BLS12381G1 iso, Integer z) -> void
+      def initialize: (Isogeny::Secp256k1 | Isogeny::BLS12381G1 iso, Integer z) -> void
       def map: (Integer u) -> untyped
     end
 
-    module ISOGeny
+    module Isogeny
       class Secp256k1
         X_NUM: Array[Integer]
         X_DEN: Array[Integer]

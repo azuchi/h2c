@@ -4,6 +4,8 @@
 
 - Move the curve definitions from `ECDSA::Group::Secp256k1_3ISO`, `BLS::Group::BLS12381G1` and `BLS::Group::BLS12381G1_11ISO` to `H2C::Curve::Secp256k1_3ISO`, `H2C::Curve::BLS12381G1` and `H2C::Curve::BLS12381G1_11ISO`, so that h2c no longer defines constants in the ecdsa gem's namespace or a top-level `BLS` module.
 - Require Ruby 3.3 or later, matching the versions tested in CI.
+- Rename `H2C::M2C::ISOGeny` to `H2C::M2C::Isogeny`.
+- Remove the unused third argument (`k`) of `H2C::Expander.get`.
 - `H2C::Expander::XMD#digest` now returns the `Digest` class rather than a shared instance, and `#dst` returns a binary (ASCII-8BIT) copy of the tag.
 
 ### Fixed

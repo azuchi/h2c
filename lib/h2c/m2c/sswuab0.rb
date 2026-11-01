@@ -6,7 +6,7 @@ module H2C
       attr_reader :sswu, :iso
 
       # Constructor
-      # @param [H2C::M2C::ISOGeny] iso
+      # @param [H2C::M2C::Isogeny] iso
       # @param [Integer] z
       def initialize(iso, z)
         @sswu = SSWU.new(iso.e0, z)

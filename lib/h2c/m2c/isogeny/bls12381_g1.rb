@@ -2,7 +2,7 @@
 
 module H2C
   module M2C
-    module ISOGeny
+    module Isogeny
       # 11-isogeny map for BLS12381
       # https://www.rfc-editor.org/rfc/rfc9380.html#appendix-E.2
       class BLS12381G1
