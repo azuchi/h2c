@@ -14,6 +14,19 @@ RSpec.describe H2C::M2C::SSWU do
   }
 
   describe "#map" do
+    # sgn0 depends on the parity of u, so an unreduced u (u >= p or u < 0)
+    # must be reduced first or the sign of y flips.
+    context "with an unreduced u" do
+      it "maps u and u + p to the same point" do
+        group = ECDSA::Group::Nistp256
+        map = described_class.new(group, -10)
+        u = 5
+
+        expect(map.map(u + group.field.prime)).to eq(map.map(u))
+        expect(map.map(u - group.field.prime)).to eq(map.map(u))
+      end
+    end
+
     context "with the exceptional case" do
       curves.each do |name, (group, z)|
         it "maps u = 0 to B / (Z * A) on #{name}" do

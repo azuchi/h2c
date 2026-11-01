@@ -24,7 +24,18 @@ module H2C
           u = hash_to_field(msg, 1)
           suite.map.map(u[0])
         end
-      suite.curve.cofactor ? p.multiply_by_scalar(suite.curve.cofactor) : p
+      clear_cofactor(p)
+    end
+
+    # Clear the cofactor of the point.
+    # https://www.rfc-editor.org/rfc/rfc9380.html#section-7
+    # The ecdsa gem leaves the cofactor nil for the NIST curves and set to 1 for
+    # secp256k1, both of which are prime-order groups with nothing to clear.
+    # @param [ECDSA::Point] p point
+    # @return [ECDSA::Point] point in the prime-order subgroup
+    def clear_cofactor(p)
+      h = suite.curve.cofactor
+      h && h > 1 ? p.multiply_by_scalar(h) : p
     end
 
     # Hashes a msg of any length into an element of a finite field.

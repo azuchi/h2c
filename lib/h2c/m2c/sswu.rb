@@ -14,14 +14,18 @@ module H2C
         @z = z
         f = curve.field
         @c1 = f.mod(-curve.param_b * f.inverse(curve.param_a))
-        @c2 = f.mod(-f.inverse(z))
+        @c2 = f.mod(-f.inverse(f.mod(z)))
       end
 
       # Outputs x and y are elements of the field F.
       # @param [Integer] u
-      # @return [Array(Integer, Integer)] x and y
+      # @return [ECDSA::Point] point on the curve
+      # @raise [H2C::Error] if no square root is found, which cannot happen for
+      # a correct Z but guards against a misconfigured curve.
       def map(u)
         f = curve.field
+        # sgn0 below inspects the parity of u, so u must be reduced first.
+        u = f.mod(u)
         t1 = f.mod(f.power(u, 2) * f.mod(z))
         t2 = f.power(t1, 2)
         x1 = f.mod(t1 + t2)
@@ -41,7 +45,10 @@ module H2C
         e2 = square?(gx1)
         x = e2 ? x1 : x2
         y2 = e2 ? gx1 : gx2
-        y = f.square_roots(y2)[0]
+        y = f.square_roots(y2).first
+        if y.nil?
+          raise H2C::Error, "no square root found for #{y2} on #{curve.name}."
+        end
         e3 = sgn0(u) == sgn0(y)
         y = f.mod(e3 ? y : -y)
         curve.new_point([x, y])
