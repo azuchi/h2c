@@ -50,6 +50,44 @@ RSpec.describe H2C::Expander do
   end
 
   describe "#expand" do
+    # RFC 9380 5.3.1 aborts only when ell > 255, len_in_bytes > 65535 or
+    # len(DST) > 255. The checks used to be off by one and to look at
+    # DST_prime (one byte longer than the dst), rejecting valid inputs.
+    context "with output length at the limit" do
+      let(:exp) { described_class.get(H2C::HashFunc::SHA256, "dst", 128) }
+
+      it "accepts ell == 255" do
+        len = 255 * 32
+        expect(exp.expand("abc", len).bytesize).to eq(len)
+      end
+
+      it "rejects ell > 255" do
+        expect { exp.expand("abc", 255 * 32 + 1) }.to raise_error(
+          H2C::Error,
+          /requested too many bytes/
+        )
+      end
+
+      it "rejects len > 65535" do
+        exp = described_class.get(H2C::HashFunc::SHA512, "dst", 128)
+        expect { exp.expand("abc", 65_536) }.to raise_error(
+          H2C::Error,
+          /requested too many bytes/
+        )
+      end
+    end
+
+    context "with a dst of 254 or 255 bytes" do
+      it "accepts the dst without hashing it" do
+        [254, 255].each do |n|
+          dst = "a" * n
+          exp = described_class.get(H2C::HashFunc::SHA256, dst, 128)
+          expect(exp.construct_dst_prime).to eq(dst + [n].pack("C"))
+          expect(exp.expand("abc", 32).bytesize).to eq(32)
+        end
+      end
+    end
+
     # A UTF-8 dst with non-ASCII characters used to raise
     # Encoding::CompatibilityError when its length byte was 0x80 or above,
     # because the tag was concatenated with a binary string.

@@ -27,11 +27,15 @@ module H2C
       def expand(msg, len)
         b_len = digest.digest_length
         ell = (len + b_len - 1) / b_len
-        dst_prime = construct_dst_prime
-
-        if ell >= 0xff || len >= 0xffff || dst_prime.bytesize >= 0xff
-          raise H2C::Error, "requested too many bytes"
+        # RFC 9380 5.3.1 step 2. A dst longer than 255 bytes has already been
+        # hashed down by construct_dst_prime, so only the output length needs
+        # checking here.
+        if ell > 255 || len > 65_535
+          raise H2C::Error,
+                "requested too many bytes: len must be at most 65535 and " \
+                  "ceil(len / #{b_len}) at most 255."
         end
+        dst_prime = construct_dst_prime
         lib_str = [(len >> 8) & 0xFF, (len & 0xff)].pack("CC")
         z_pad = Array.new(digest.block_length, 0)
 
