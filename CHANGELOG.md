@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-01
+
 ### Breaking changes
 
 - Move the curve definitions from `ECDSA::Group::Secp256k1_3ISO`, `BLS::Group::BLS12381G1` and `BLS::Group::BLS12381G1_11ISO` to `H2C::Curve::Secp256k1_3ISO`, `H2C::Curve::BLS12381G1` and `H2C::Curve::BLS12381G1_11ISO`, so that h2c no longer defines constants in the ecdsa gem's namespace or a top-level `BLS` module.
