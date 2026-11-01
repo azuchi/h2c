@@ -2,7 +2,7 @@
 
 module H2C
   module M2C
-    # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#section-6.6.2
+    # https://www.rfc-editor.org/rfc/rfc9380.html#section-6.6.2
     class SSWU
       attr_reader :curve, :c1, :c2, :z
 

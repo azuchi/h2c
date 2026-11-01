@@ -3,7 +3,7 @@ module H2C
   module M2C
     module ISOGeny
       # 3-isogeny map for secp256k1
-      # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#appendix-E.1
+      # https://www.rfc-editor.org/rfc/rfc9380.html#appendix-E.1
       class Secp256k1
         attr_reader :e0, :e1
 

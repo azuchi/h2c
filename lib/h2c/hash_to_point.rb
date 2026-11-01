@@ -39,7 +39,7 @@ module H2C
     end
 
     # Hashes a msg of any length into an element of a finite field.
-    # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#name-hash_to_field-implementatio
+    # https://www.rfc-editor.org/rfc/rfc9380.html#section-5.2
     # @param [String] msg A byte string containing the message to hash.
     # @param [Integer] count The number of elements of Field to output.
     # @param [Integer] modulo (Optional) This value is a finite field of characteristic p in the

@@ -4,7 +4,7 @@ module H2C
   module M2C
     module ISOGeny
       # 11-isogeny map for BLS12381
-      # https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#appendix-E.2
+      # https://www.rfc-editor.org/rfc/rfc9380.html#appendix-E.2
       class BLS12381G1
         attr_reader :e0, :e1
 

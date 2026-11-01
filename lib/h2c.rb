@@ -5,7 +5,7 @@ require "ecdsa"
 require_relative "h2c/curve"
 
 # Hash to Curves library.
-# https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html
+# https://www.rfc-editor.org/rfc/rfc9380.html
 module H2C
   class Error < StandardError
   end
@@ -31,9 +31,10 @@ module H2C
 
   # Get hash to curve corresponding to +suite+.
   #
-  # @param [String] suite Suite name for hashing.
-  # Currently supported are "secp256k1_XMD:SHA-256_SSWU_NU_" and "secp256k1_XMD:SHA-256_SSWU_RO_".
-  # @param [String] dst Domain separation tag.
+  # @param [String] suite Suite id for hashing. See the constants in H2C::Suite
+  # for the supported suites.
+  # @param [String] dst Domain separation tag. Must not be empty.
+  # @raise [H2C::Error] If the suite is unsupported or dst is empty.
   # @return [H2C::HashToPoint]
   def get(suite, dst)
     suite = Suite.new(suite, dst)

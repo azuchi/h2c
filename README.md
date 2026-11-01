@@ -1,6 +1,6 @@
 # Hashing to Elliptic Curves for Ruby
 
-This is a Ruby implementation of the [Hash to Curves](https://github.com/cfrg/draft-irtf-cfrg-hash-to-curve) proposed by the [IETF](https://datatracker.ietf.org/doc/draft-irtf-cfrg-hash-to-curve/).
+This is a Ruby implementation of [RFC 9380: Hashing to Elliptic Curves](https://www.rfc-editor.org/rfc/rfc9380.html).
 
 It has been tested using the Test Vector provided, but the code has not been audited to ensure functional specification and safety. Also It is under development and is subject to change without backward compatibility.
 

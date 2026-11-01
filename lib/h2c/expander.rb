@@ -31,7 +31,8 @@ module H2C
     module_function
 
     # Get expander implementation
-    # @param [String] func Hash function name. Currently supported by 'SHA-256' and 'SHA-512'.
+    # @param [String] func Hash function name. One of H2C::HashFunc::XMD_FUNCS
+    # ("SHA256", "SHA384" or "SHA512").
     # @param [String] dst Domain separation tag with binary format. Must not be empty.
     # @raise [H2C::Error] If invalid func or empty dst specified.
     # @return [XMD] expander implementation, currently only XMD is supported.
@@ -42,7 +43,7 @@ module H2C
       # RFC 9380 3.1 requires domain separation tags to have nonzero length.
       raise H2C::Error, "dst must not be empty." if dst.nil? || dst.empty?
       XMD.new(func, dst)
-      # TODO: XOR
+      # TODO: expand_message_xof for HashFunc::XOF_FUNCS is not implemented yet.
     end
 
     # XOR two byte(+x+ and +y+) string.
