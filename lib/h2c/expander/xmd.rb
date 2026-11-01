@@ -10,7 +10,11 @@ module H2C
       # @param [String] func Hash function name. Currently supported by 'SHA256' and 'SHA512'
       # @param [String] dst Domain separation tag with binary format.
       def initialize(func, dst)
-        @dst = dst
+        # Concatenating with the length byte (and the hashed prefix for long
+        # tags) requires a binary string. A UTF-8 tag with non-ASCII characters
+        # would otherwise raise Encoding::CompatibilityError once the length
+        # byte is 0x80 or above.
+        @dst = dst.b
         @digest = Digest(func).new
       end
 

@@ -48,4 +48,21 @@ RSpec.describe H2C::Expander do
       end
     end
   end
+
+  describe "#expand" do
+    # A UTF-8 dst with non-ASCII characters used to raise
+    # Encoding::CompatibilityError when its length byte was 0x80 or above,
+    # because the tag was concatenated with a binary string.
+    context "with a non-ASCII UTF-8 dst" do
+      let(:dst) { "日" * 50 } # 150 bytes
+
+      it "produces the same output as the equivalent binary dst" do
+        utf8 = described_class.get(H2C::HashFunc::SHA256, dst, 128)
+        binary = described_class.get(H2C::HashFunc::SHA256, dst.b, 128)
+
+        expect(utf8.construct_dst_prime).to eq(dst.b + [150].pack("C"))
+        expect(utf8.expand("abc", 32)).to eq(binary.expand("abc", 32))
+      end
+    end
+  end
 end
