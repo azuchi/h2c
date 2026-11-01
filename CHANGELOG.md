@@ -18,6 +18,7 @@
 - `H2C::Expander::XMD` holds no mutable digest state, so an expander (and `H2C::HashToPoint`) can be shared across threads.
 - Skip the cofactor multiplication when the cofactor is 1.
 - Documentation now references RFC 9380 instead of draft-irtf-cfrg-hash-to-curve-16.
+- Replace the unmaintained prettier gem with syntax_tree for formatting checks, since prettier 4.0.3 fails on Ruby 4.0 (`JSON.fast_generate` was removed).
 
 ## [0.3.0] - 2026-08-09
 
